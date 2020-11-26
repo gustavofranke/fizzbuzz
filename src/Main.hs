@@ -1,18 +1,32 @@
 module Main where
 
+import Data.Maybe ( fromMaybe )
+import Data.Foldable ( Foldable(fold) )
+
 -- | Print the numbers 1 to 100.
 -- If the number is a multiple of 3, then print "Fizz" instead of the number.
 -- If the number is a multiple of 5, then print "Buzz" instead of the number.
 -- If the number is divisible by both 3 and 5, then print "FizzBuzz" instead.
-fizzBuzz :: [Integer] -> [String]
-fizzBuzz = map fizzLogic
 
-fizzLogic :: Integer -> String
-fizzLogic i
-  | i `mod` 3 == 0 && i `mod` 5 == 0 = "Fizz" ++ "Buzz"
-  | i `mod` 3 == 0                   = "Fizz" ++ ""
-  |                   i `mod` 5 == 0 = ""     ++ "Buzz"
-  | otherwise                        = show i
+type FizzRule = Integer -> Maybe String
+
+rule :: Integer -> String -> FizzRule
+rule n m i =
+    case i `mod` n of
+         0 -> Just m
+         _ -> Nothing
+
+fizz :: FizzRule
+fizz = rule 3 "Fizz"
+
+buzz :: FizzRule
+buzz = rule 5 "Buzz"
+
+fizzBuzz :: [FizzRule] -> [Integer] -> [String]
+fizzBuzz rules = map f
+  where
+    f i = fromMaybe (show i) (ruleSet i)
+    ruleSet = fold rules
 
 main :: IO ()
-main = mapM_ print (fizzBuzz [1..100])
+main = mapM_ print (fizzBuzz [fizz, buzz] [1..100])
