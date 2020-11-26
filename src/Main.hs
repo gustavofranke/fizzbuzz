@@ -9,9 +9,9 @@ fizzBuzz = map fizzLogic
 
 fizzLogic :: Integer -> String
 fizzLogic i
-  | i `mod` 3 == 0 && i `mod` 5 == 0 = "FizzBuzz"
-  | i `mod` 3 == 0                   = "Fizz"
-  | i `mod` 5 == 0                   = "Buzz"
+  | i `mod` 3 == 0 && i `mod` 5 == 0 = "Fizz" ++ "Buzz"
+  | i `mod` 3 == 0                   = "Fizz" ++ ""
+  |                   i `mod` 5 == 0 = ""     ++ "Buzz"
   | otherwise                        = show i
 
 main :: IO ()
