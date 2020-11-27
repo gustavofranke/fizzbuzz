@@ -10,15 +10,46 @@ import Data.Foldable ( Foldable(fold) )
 
 type FizzRule = Integer -> Maybe String
 
+-- |
+-- >>> rule 6 "str" 5
+-- Nothing
+-- >>> rule 3 "hello" 6
+-- Just "hello"
+-- >>> rule 3 "hello" 9
+-- Just "hello"
 rule :: Integer -> String -> FizzRule
 rule n m i =
     case i `mod` n of
          0 -> Just m
          _ -> Nothing
 
+-- |
+-- >>> fizz 3
+-- Just "Fizz"
+--
+-- >>> fizz 5
+-- Nothing
+--
+-- >>> fizz 6
+-- Just "Fizz"
+--
+-- >>> fizz 7
+-- Nothing
 fizz :: FizzRule
 fizz = rule 3 "Fizz"
 
+-- |
+-- >>> buzz 5
+-- Just "Buzz"
+--
+-- >>> buzz 6
+-- Nothing
+--
+-- >>> buzz 10
+-- Just "Buzz"
+--
+-- >>> buzz 11
+-- Nothing
 buzz :: FizzRule
 buzz = rule 5 "Buzz"
 
