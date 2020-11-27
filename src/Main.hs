@@ -53,10 +53,9 @@ fizz = rule 3 "Fizz"
 buzz :: FizzRule
 buzz = rule 5 "Buzz"
 
-fizzBuzz :: [FizzRule] -> [Integer] -> [String]
-fizzBuzz rules = map f
+fizzBuzz :: (Functor f, Foldable t) => t (Integer -> Maybe String) -> f Integer -> f String
+fizzBuzz rules = fmap (fromMaybe <$> show <*> ruleSet)
   where
-    f i = fromMaybe (show i) (ruleSet i)
     ruleSet = fold rules
 
 main :: IO ()
